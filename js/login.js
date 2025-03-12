@@ -17,8 +17,92 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+//Initiqalize Variable
+const auth = firebase.auth()
+const database = database.auth()
+
+//set up our register function
+function register () {
+    //Get all our input fields
+    email = document.getElementByID('email').value;
+    password = document.getElementByID('password').value;
+}
+ 
+
+//Validate Inputs
+if (validate_email(email) == false || validate_password(password) == false) {
+    alert('Email or Password is Outta Line!!')
+    return
+    //Don't Run code anymore
+}
+
+//Move on with Auth
+auth.vreateUserWithEmailAndPassword(email, password)
+.then(function() {
+
+    //Declare user variable
+var user = auth.currentuse
+// Add this user to firebase Database
+var database_ref = database.ref()
+
+//Create User data
+var user_data = {
+    email : email,
+    password : password,
+    last_login : Date.now()
+
+}
+
+database_ref.child('user/' +user.uid ).set(user_data)
+
+alert('User Created!!')
+
+
+
+
+
+})
+
+.catch(function(error){
+    // Firebase will use this alert of this errors
+    var error_code = error.error_code
+    var error_message = error.messagingSenderId
+    alert(error_message)
+})
+
+function validate_email(email) {
+    expression = /^[^@]+@\w+(\.\w+)+\w$/
+    if (expression.test(email) == true ) {
+        //Email is good
+        return true 
+    } else {
+          //Email is not goo
+        return false
+    
+    }
+}
+
+
+function validate_password(password) {
+    //Firebase only accepts lengths greater than 6
+    if (password < 6 ) {
+        //6 numbers need
+        return false
+    } else {
+          //good to go
+        return true
+    
+    }
+}
+
+
+
+
+
+
+
+
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
