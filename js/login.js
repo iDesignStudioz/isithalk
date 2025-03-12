@@ -19,3 +19,23 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+
+
+//input
+const email = document.getElementByID('email').value;
+const password = document.getElementByID('password').value;
+//submit button
+const submit = document.getElementByID('submit').value;
+submit.addEventListner("click, function (event)")
+{
+    ev.preventDefault()
+    alert(5)    
+}
+
+
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
