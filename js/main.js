@@ -1,390 +1,295 @@
 /* -------------------------------------------
 
-Name: 		Ruizarch
-Version:    1.0
-Developer:	Nazar Miller (millerDigitalDesign)
-Portfolio:  https://themeforest.net/user/millerdigitaldesign/portfolio?ref=MillerDigitalDesign
+Name: 		 Pixy
+Version:     1.0
+Developer:   Nazar Miller (millerDigitalDesign)
+Portfolio:   https://themeforest.net/user/millerdigitaldesign/portfolio?ref=MillerDigitalDesign
 
 p.s. I am available for Freelance hire (UI design, web development). email: miller.themes@gmail.com
-
+   
 ------------------------------------------- */
 
-$(function () {
-
+document.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
-    /***************************
+    /* -------------------------------------------
 
     swup
 
-    ***************************/
-    const options = {
-        containers: ['#swupMain', '#swupMenu'],
-        animateHistoryBrowsing: true,
-        linkSelector: 'a:not([data-no-swup])',
-        animationSelector: '[class="mil-main-transition"]'
-    };
-    const swup = new Swup(options);
+    ------------------------------------------- */
 
-    /***************************
+    const swup = new Swup({
+        containers: ['#swup', '#swupMenu', '#swup-opm'],
+        animateHistoryBrowsing: true,
+    });
+
+    /* -------------------------------------------
 
     register gsap plugins
 
-    ***************************/
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-    /***************************
+    ------------------------------------------- */
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+    /* -------------------------------------------
 
-    color variables
+    ScrollSmoother
 
-    ***************************/
+    ------------------------------------------- */
+    ScrollSmoother.create({
+        smooth: 1,
+        effects: true,
+        smoothTouch: 0.1,
+    });
 
-    var accent = 'rgba(255, 152, 0, 1)';
-    var dark = '#000';
-    var light = '#fff';
-
-    /***************************
+    /* -------------------------------------------
 
     preloader
-    
-    ***************************/
+
+    ------------------------------------------- */
 
     var timeline = gsap.timeline();
 
-    timeline.to(".mil-preloader-animation", {
-        opacity: 1,
-    });
-
-    timeline.fromTo(
-        ".mil-animation-1 .mil-h3", {
+    timeline
+        .to(".mil-preloader-animation", {
+            opacity: 1,
+            ease: 'sine'
+        })
+        .fromTo(".mil-animation-1 p", {
             y: "30px",
-            opacity: 0
+            opacity: 0,
+            scale: .8,
+            ease: 'sine'
         }, {
             y: "0px",
             opacity: 1,
-            stagger: 0.4
-        },
-    );
-
-    timeline.to(".mil-animation-1 .mil-h3", {
-        opacity: 0,
-        y: '-30',
-    }, "+=.3");
-
-    timeline.fromTo(".mil-reveal-box", 0.1, {
-        opacity: 0,
-    }, {
-        opacity: 1,
-        x: '-30',
-    });
-
-    timeline.to(".mil-reveal-box", 0.45, {
-        width: "100%",
-        x: 0,
-    }, "+=.1");
-    timeline.to(".mil-reveal-box", {
-        right: "0"
-    });
-    timeline.to(".mil-reveal-box", 0.3, {
-        width: "0%"
-    });
-    timeline.fromTo(".mil-animation-2 .mil-h3", {
-        opacity: 0,
-    }, {
-        opacity: 1,
-    }, "-=.5");
-    timeline.to(".mil-animation-2 .mil-h3", 0.6, {
-        opacity: 0,
-        y: '-30'
-    }, "+=.5");
-    timeline.to(".mil-preloader", 0.8, {
-        opacity: 0,
-        ease: 'sine',
-    }, "+=.2");
-    timeline.fromTo(".mil-up", 0.8, {
-        opacity: 0,
-        y: 40,
-        scale: .98,
-        ease: 'sine',
-
-    }, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        onComplete: function () {
-            $('.mil-preloader').addClass("mil-hidden");
-        },
-    }, "-=1");
-    /***************************
-
-    anchor scroll
-
-    ***************************/
-    $(document).on('click', 'a[href^="#"]', function (event) {
-        event.preventDefault();
-
-        var target = $($.attr(this, 'href'));
-        var offset = 0;
-
-        if ($(window).width() < 1200) {
-            offset = 90;
-        }
-
-        $('html, body').animate({
-            scrollTop: target.offset().top - offset
-        }, 400);
-    });
-    /***************************
-
-    append
-
-    ***************************/
-    $(document).ready(function () {
-        $(".mil-arrow").clone().appendTo(".mil-arrow-place");
-        $(".mil-dodecahedron").clone().appendTo(".mil-animation");
-        $(".mil-lines").clone().appendTo(".mil-lines-place");
-        $(".mil-main-menu ul li.mil-active > a").clone().appendTo(".mil-current-page");
-    });
-    /***************************
-
-    accordion
-
-    ***************************/
-
-    let groups = gsap.utils.toArray(".mil-accordion-group");
-    let menus = gsap.utils.toArray(".mil-accordion-menu");
-    let menuToggles = groups.map(createAnimation);
-
-    menus.forEach((menu) => {
-        menu.addEventListener("click", () => toggleMenu(menu));
-    });
-
-    function toggleMenu(clickedMenu) {
-        menuToggles.forEach((toggleFn) => toggleFn(clickedMenu));
-    }
-
-    function createAnimation(element) {
-        let menu = element.querySelector(".mil-accordion-menu");
-        let box = element.querySelector(".mil-accordion-content");
-        let symbol = element.querySelector(".mil-symbol");
-        let minusElement = element.querySelector(".mil-minus");
-        let plusElement = element.querySelector(".mil-plus");
-
-        gsap.set(box, {
-            height: "auto",
+            scale: 1,
+            stagger: 0.3,
+            webkitFilter: "blur(0px)"
+        })
+        .to(".mil-animation-1 p", {
+            opacity: 0,
+            y: '-30'
+        }, "+=0.3")
+        .fromTo(".mil-reveal-box", 0.1, {
+            x: 0
+        }, {
+            x: '-30'
+        })
+        .to(".mil-reveal-box", 0.45, {
+            width: "100%",
+            x: 0
+        }, "+=0.1")
+        .to(".mil-reveal-box", {
+            right: "0"
+        })
+        .to(".mil-reveal-box", 0.3, {
+            width: "0%"
+        })
+        .fromTo(".mil-animation-2 p", {
+            opacity: 0
+        }, {
+            opacity: 1
+        }, "-=0.5")
+        .to(".mil-animation-2 p", 0.6, {
+            opacity: 0,
+            y: '-30'
+        }, "+=0.5")
+        .to(".mil-preloader", 0.8, {
+            opacity: 0,
+            ease: 'sine'
+        }, "+=0.2")
+        .add(() => {
+            ScrollTrigger.refresh();
+        }, "-=1")
+        .add(() => {
+            document.querySelector('.mil-preloader').classList.add('mil-hidden');
         });
 
-        let animation = gsap
-            .timeline()
-            .from(box, {
-                height: 0,
-                duration: 0.4,
-                ease: "sine"
-            })
-            .from(minusElement, {
-                duration: 0.4,
-                autoAlpha: 0,
-                ease: "none",
-            }, 0)
-            .to(plusElement, {
-                duration: 0.4,
-                autoAlpha: 0,
-                ease: "none",
-            }, 0)
-            .to(symbol, {
-                background: accent,
-                ease: "none",
-            }, 0)
-            .reverse();
-
-        return function (clickedMenu) {
-            if (clickedMenu === menu) {
-                animation.reversed(!animation.reversed());
-            } else {
-                animation.reverse();
-            }
-        };
-    }
-    /***************************
-
-    back to top
-
-    ***************************/
-    const btt = document.querySelector(".mil-back-to-top .mil-link");
-
-    gsap.set(btt, {
-        x: -30,
-        opacity: 0,
-    });
-
-    gsap.to(btt, {
-        x: 0,
-        opacity: 1,
-        ease: 'sine',
-        scrollTrigger: {
-            trigger: "body",
-            start: "top -40%",
-            end: "top -40%",
-            toggleActions: "play none reverse none"
-        }
-    });
-    /***************************
+    /* -------------------------------------------
 
     cursor
 
-    ***************************/
-    const cursor = document.querySelector('.mil-ball');
+    ------------------------------------------- */
 
-    gsap.set(cursor, {
-        xPercent: -50,
-        yPercent: -50,
+    var follower = document.querySelector(".mil-cursor-follower");
+    var posX = 0,
+        posY = 0;
+    var mouseX = 0,
+        mouseY = 0;
+
+    gsap.ticker.add(function () {
+        posX += (mouseX - posX) / 29;
+        posY += (mouseY - posY) / 29;
+        gsap.set(follower, {
+            css: {
+                left: posX,
+                top: posY
+            }
+        });
     });
 
-    document.addEventListener('pointermove', movecursor);
-
-    function movecursor(e) {
-        gsap.to(cursor, {
-            duration: 0.6,
-            ease: 'sine',
-            x: e.clientX,
-            y: e.clientY,
+    function addHoverEffect(selector, className) {
+        document.querySelectorAll(selector).forEach(function (link) {
+            link.addEventListener("mouseenter", function () {
+                follower.classList.add(className);
+            });
+            link.addEventListener("mouseleave", function () {
+                follower.classList.remove(className);
+            });
         });
     }
 
-    $('.mil-drag, .mil-more, .mil-choose').mouseover(function () {
-        gsap.to($(cursor), .2, {
-            width: 90,
-            height: 90,
-            opacity: 1,
-            ease: 'sine',
+    addHoverEffect(".mil-c-light", "mil-light-active");
+    addHoverEffect(".mil-c-dark", "mil-dark-active");
+    addHoverEffect(".mil-c-gone", "mil-gone-active");
+    addHoverEffect(".mil-c-view", "mil-view-active");
+    addHoverEffect(".mil-c-next", "mil-next-active");
+    addHoverEffect(".mil-c-read", "mil-read-active");
+    addHoverEffect(".mil-c-swipe", "mil-swipe-active");
+
+    document.addEventListener("mousemove", function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    /* -------------------------------------------
+
+    cursor parallax
+
+    ------------------------------------------- */
+    var scene1 = document.getElementById('scene');
+    if (scene1) {
+        var parallaxInstance1 = new Parallax(scene1, {
+            limitY: 10,
+        });
+    }
+
+    var scene2 = document.getElementById('scene-2');
+    if (scene2) {
+        var parallaxInstance2 = new Parallax(scene2, {
+            limitY: 10,
+        });
+    }
+    /* -------------------------------------------
+
+    menu
+
+    ------------------------------------------- */
+    document.addEventListener('click', function (event) {
+        const menuBtn = event.target.closest('.mil-menu-btn');
+        const menuFrame = document.querySelector('.mil-menu-frame');
+        const btnFrame = document.querySelector('.mil-buttons-tp-frame');
+        const tp2 = document.querySelector('.mil-top-panel-2');
+
+        if (menuBtn) {
+            menuBtn.classList.toggle('mil-active');
+            menuFrame.classList.toggle('mil-active');
+            btnFrame.classList.toggle('mil-active');
+            tp2.classList.toggle('mil-menu-open');
+        } else if (event.target.closest('.mil-menu-frame') && !event.target.closest('.mil-menu-frame > *')) {
+            menuFrame.classList.remove('mil-active');
+            btnFrame.classList.remove('mil-active');
+            document.querySelector('.mil-menu-btn').classList.remove('mil-active');
+            tp2.classList.remove('mil-menu-open');
+        }
+    });
+
+    document.querySelectorAll('.mil-main-menu li a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            const href = this.getAttribute('href');
+
+            if (isValidHref(href)) {
+                document.querySelector('.mil-menu-btn').classList.remove('mil-active');
+                document.querySelector('.mil-menu-frame').classList.remove('mil-active');
+                document.querySelector('.mil-buttons-tp-frame').classList.remove('mil-active');
+                document.querySelector('.mil-top-panel-2').classList.remove('mil-menu-open');
+            } else {
+                event.preventDefault();
+            }
         });
     });
 
-    $('.mil-drag, .mil-more, .mil-choose').mouseleave(function () {
-        gsap.to($(cursor), .2, {
-            width: 20,
-            height: 20,
-            opacity: .1,
-            ease: 'sine',
+    function isValidHref(href) {
+        return href && href.trim() !== '' && href.length > 1 && !/^#(\.|$)/.test(href);
+    }
+
+    document.querySelectorAll('.mil-has-children > a').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault(); // Додаємо, щоб уникнути переходу за посиланням
+
+            const parentElement = link.parentElement;
+            const isActive = parentElement.classList.contains('mil-active');
+
+            document.querySelectorAll('.mil-has-children').forEach(el => {
+                const ul = el.querySelector('ul');
+                el.classList.remove('mil-active');
+                if (ul) ul.style.maxHeight = '0';
+            });
+
+            if (!isActive) {
+                parentElement.classList.add('mil-active');
+                const ul = parentElement.querySelector('ul');
+                if (ul) ul.style.maxHeight = `${ul.scrollHeight}px`;
+            }
         });
     });
 
-    $('.mil-accent-cursor').mouseover(function () {
-        gsap.to($(cursor), .2, {
-            background: accent,
-            ease: 'sine',
-        });
-        $(cursor).addClass('mil-accent');
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', () => {
+        const topPanel = document.querySelector('.mil-top-panel-2');
+        const menuFrame = document.querySelector('.mil-menu-frame-2');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (menuFrame.classList.contains('mil-active')) {
+            return; // Stop execution if .mil-active class is present
+        }
+
+        if (scrollTop > lastScrollTop) {
+            topPanel.classList.add('mil-scroll');
+        } else if (scrollTop < lastScrollTop && scrollTop === 0) {
+            topPanel.classList.remove('mil-scroll');
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
 
-    $('.mil-accent-cursor').mouseleave(function () {
-        gsap.to($(cursor), .2, {
-            background: dark,
-            ease: 'sine',
-        });
-        $(cursor).removeClass('mil-accent');
-    });
 
-    $('.mil-drag').mouseover(function () {
-        gsap.to($('.mil-ball .mil-icon-1'), .2, {
-            scale: '1',
-            ease: 'sine',
-        });
-    });
+    /* -------------------------------------------
 
-    $('.mil-drag').mouseleave(function () {
-        gsap.to($('.mil-ball .mil-icon-1'), .2, {
-            scale: '0',
-            ease: 'sine',
-        });
-    });
+    onepage navigation
 
-    $('.mil-more').mouseover(function () {
-        gsap.to($('.mil-ball .mil-more-text'), .2, {
-            scale: '1',
-            ease: 'sine',
-        });
-    });
+    ------------------------------------------- */
+    document.querySelectorAll('.mil-onepage-nav > li > a, .mil-scroll-to').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
 
-    $('.mil-more').mouseleave(function () {
-        gsap.to($('.mil-ball .mil-more-text'), .2, {
-            scale: '0',
-            ease: 'sine',
-        });
-    });
+            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            const currentPosition = window.pageYOffset;
+            const distance = Math.abs(targetPosition - currentPosition);
+            const baseDuration = 0.1; // Base duration in seconds
+            const duration = baseDuration + (distance / 4000); // Adjust this factor as needed
 
-    $('.mil-choose').mouseover(function () {
-        gsap.to($('.mil-ball .mil-choose-text'), .2, {
-            scale: '1',
-            ease: 'sine',
-        });
-    });
-
-    $('.mil-choose').mouseleave(function () {
-        gsap.to($('.mil-ball .mil-choose-text'), .2, {
-            scale: '0',
-            ease: 'sine',
+            const offsetY = window.innerWidth < 992 ? 120 : 160;
+            gsap.to(window, {
+                duration: duration,
+                ease: 'sine',
+                scrollTo: {
+                    y: targetElement,
+                    offsetY: offsetY
+                }
+            });
         });
     });
 
-    $('a:not(".mil-choose , .mil-more , .mil-drag , .mil-accent-cursor"), input , textarea, .mil-accordion-menu').mouseover(function () {
-        gsap.to($(cursor), .2, {
-            scale: 0,
-            ease: 'sine',
-        });
-        gsap.to($('.mil-ball svg'), .2, {
-            scale: 0,
-        });
-    });
+    /* -------------------------------------------
 
-    $('a:not(".mil-choose , .mil-more , .mil-drag , .mil-accent-cursor"), input, textarea, .mil-accordion-menu').mouseleave(function () {
-        gsap.to($(cursor), .2, {
-            scale: 1,
-            ease: 'sine',
-        });
+    scrollbar
 
-        gsap.to($('.mil-ball svg'), .2, {
-            scale: 1,
-        });
-    });
-
-    $('body').mousedown(function () {
-        gsap.to($(cursor), .2, {
-            scale: .1,
-            ease: 'sine',
-        });
-    });
-    $('body').mouseup(function () {
-        gsap.to($(cursor), .2, {
-            scale: 1,
-            ease: 'sine',
-        });
-    });
-    /***************************
-
-     menu
-
-    ***************************/
-    $('.mil-menu-btn').on("click", function () {
-        $('.mil-menu-btn').toggleClass('mil-active');
-        $('.mil-menu').toggleClass('mil-active');
-        $('.mil-menu-frame').toggleClass('mil-active');
-    });
-    /***************************
-
-    main menu
-
-    ***************************/
-    $('.mil-has-children a').on('click', function () {
-        $('.mil-has-children ul').removeClass('mil-active');
-        $('.mil-has-children a').removeClass('mil-active');
-        $(this).toggleClass('mil-active');
-        $(this).next().toggleClass('mil-active');
-    });
-    /***************************
-
-    progressbar
-
-    ***************************/
+    ------------------------------------------- */
     gsap.to('.mil-progress', {
         height: '100%',
         ease: 'sine',
@@ -392,26 +297,109 @@ $(function () {
             scrub: 0.3
         }
     });
-    /***************************
 
-    scroll animations
+    /* -------------------------------------------
 
-    ***************************/
+    ruber letters
 
+    ------------------------------------------- */
+    const headings = document.querySelectorAll('.mil-rubber');
+
+    headings.forEach(heading => {
+        const textNodes = [];
+
+        heading.childNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
+                node.textContent.split(' ').forEach((word, index, array) => {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.classList.add('mil-word-span');
+                    word.split('').forEach(letter => {
+                        const letterSpan = document.createElement('span');
+                        letterSpan.classList.add('mil-letter-span');
+                        letterSpan.textContent = letter;
+                        wordSpan.appendChild(letterSpan);
+                    });
+                    textNodes.push(wordSpan);
+                    if (index < array.length - 1) {
+                        textNodes.push(document.createTextNode(' '));
+                    }
+                });
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                textNodes.push(node.cloneNode(true));
+            }
+        });
+
+        heading.innerHTML = '';
+        textNodes.forEach(node => heading.appendChild(node));
+
+        const letters = heading.querySelectorAll('.mil-letter-span');
+        letters.forEach(letter => {
+            letter.addEventListener('mouseenter', () => {
+                gsap.to(letter, {
+                    scaleY: 1.1,
+                    y: '-5%',
+                    duration: 0.2,
+                    ease: 'sine'
+                });
+            });
+
+            letter.addEventListener('mouseleave', () => {
+                gsap.to(letter, {
+                    scaleY: 1,
+                    y: '0%',
+                    duration: 0.2,
+                    ease: 'sine'
+                });
+            });
+        });
+    });
+
+    /* -------------------------------------------
+
+    counters
+
+    ------------------------------------------- */
+    const numbers = document.querySelectorAll(".mil-counter");
+
+    if (numbers.length > 0) {
+        numbers.forEach(element => {
+            const zero = {
+                val: 0
+            };
+            const num = parseFloat(element.dataset.number);
+            const split = num.toString().split(".");
+            const decimals = split.length > 1 ? split[1].length : 0;
+
+            gsap.to(zero, {
+                val: num,
+                duration: 1.8,
+                scrollTrigger: {
+                    trigger: element,
+                    toggleActions: 'play none none reverse',
+                },
+                onUpdate: function () {
+                    element.textContent = zero.val.toFixed(decimals);
+                }
+            });
+        });
+    }
+
+    /* -------------------------------------------
+
+    scroll animation
+
+    ------------------------------------------- */
     const appearance = document.querySelectorAll(".mil-up");
-
     appearance.forEach((section) => {
         gsap.fromTo(section, {
             opacity: 0,
             y: 40,
-            scale: .98,
+            scale: 1.04,
             ease: 'sine',
-
         }, {
             y: 0,
             opacity: 1,
             scale: 1,
-            duration: .4,
             scrollTrigger: {
                 trigger: section,
                 toggleActions: 'play none none reverse',
@@ -419,15 +407,75 @@ $(function () {
         });
     });
 
-    const scaleImage = document.querySelectorAll(".mil-scale");
+    /* -------------------------------------------
+
+    parallax animation
+
+    ------------------------------------------- */
+
+    const parallaxImages = document.querySelectorAll(".mil-parallax-img");
+
+    parallaxImages.forEach((section) => {
+        var value1 = section.getAttribute("data-value-1");
+        var value2 = section.getAttribute("data-value-2");
+
+        gsap.fromTo(section, {
+            ease: 'sine',
+            y: value1
+        }, {
+            y: value2,
+            scrollTrigger: {
+                trigger: section,
+                scrub: true,
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+    /* -------------------------------------------
+
+    parallax x animation
+
+    ------------------------------------------- */
+
+    const parallaxXImages = document.querySelectorAll(".mil-parallax-x-img");
+
+    parallaxXImages.forEach((section) => {
+        var value1 = section.getAttribute("data-value-1");
+        var value2 = section.getAttribute("data-value-2");
+
+        gsap.fromTo(section, {
+            ease: 'sine',
+            x: value1
+        }, {
+            x: value2,
+            scrollTrigger: {
+                trigger: section,
+                scrub: true,
+                toggleActions: 'play none none reverse'
+            }
+        });
+    });
+
+
+    /* -------------------------------------------
+
+    scale animation
+
+    ------------------------------------------- */
+    const scaleImage = document.querySelectorAll(".mil-scale-img");
 
     scaleImage.forEach((section) => {
-        var value1 = $(section).data("value-1");
-        var value2 = $(section).data("value-2");
+        var value1 = section.getAttribute("data-value-1");
+        var value2 = section.getAttribute("data-value-2");
+
+        if (window.innerWidth < 1200) {
+            value1 = Math.max(.95, value1);
+        }
+
         gsap.fromTo(section, {
             ease: 'sine',
             scale: value1,
-
         }, {
             scale: value2,
             scrollTrigger: {
@@ -438,36 +486,18 @@ $(function () {
         });
     });
 
-    const parallaxImage = document.querySelectorAll(".mil-parallax");
+    /* -------------------------------------------
 
+    rotate animation
 
-    if ($(window).width() > 960) {
-        parallaxImage.forEach((section) => {
-            var value1 = $(section).data("value-1");
-            var value2 = $(section).data("value-2");
-            gsap.fromTo(section, {
-                ease: 'sine',
-                y: value1,
-
-            }, {
-                y: value2,
-                scrollTrigger: {
-                    trigger: section,
-                    scrub: true,
-                    toggleActions: 'play none none reverse',
-                }
-            });
-        });
-    }
-
+    ------------------------------------------- */
     const rotate = document.querySelectorAll(".mil-rotate");
 
     rotate.forEach((section) => {
-        var value = $(section).data("value");
+        var value = section.getAttribute("data-value");
         gsap.fromTo(section, {
             ease: 'sine',
             rotate: 0,
-
         }, {
             rotate: value,
             scrollTrigger: {
@@ -477,382 +507,384 @@ $(function () {
             }
         });
     });
-    /***************************
 
-    fancybox
+    /* -------------------------------------------
 
-    ***************************/
-    $('[data-fancybox="gallery"]').fancybox({
-        buttons: [
-            "slideShow",
-            "zoom",
-            "fullScreen",
-            "close"
-          ],
-        loop: false,
-        protect: true
+    add class
+
+    ------------------------------------------- */
+    function addClassToElement(element) {
+        if (element) {
+            element.classList.add('mil-added');
+        }
+    }
+
+    function removeClassFromElement(element) {
+        if (element) {
+            element.classList.remove('mil-added');
+        }
+    }
+
+    document.querySelectorAll('.mil-add-class').forEach(element => {
+        ScrollTrigger.create({
+            trigger: element,
+            toggleActions: 'play none none reverse',
+            onEnter: () => addClassToElement(element),
+            onLeaveBack: () => removeClassFromElement(element)
+        });
     });
-    $.fancybox.defaults.hash = false;
-    /***************************
 
-    reviews slider
+    /* -------------------------------------------
 
-    ***************************/
+    sliders
 
-    var menu = ['<div class="mil-custom-dot mil-slide-1"></div>', '<div class="mil-custom-dot mil-slide-2"></div>', '<div class="mil-custom-dot mil-slide-3"></div>', '<div class="mil-custom-dot mil-slide-4"></div>', '<div class="mil-custom-dot mil-slide-5"></div>', '<div class="mil-custom-dot mil-slide-6"></div>', '<div class="mil-custom-dot mil-slide-7"></div>']
-    var mySwiper = new Swiper('.mil-reviews-slider', {
-        // If we need pagination
-        pagination: {
-            el: '.mil-revi-pagination',
-            clickable: true,
-            renderBullet: function (index, className) {
-                return '<span class="' + className + '">' + (menu[index]) + '</span>';
-            },
-        },
-        speed: 800,
-        effect: 'fade',
+    ------------------------------------------- */
+
+    var swiper = new Swiper('.mil-blog-slider', {
         parallax: true,
-        navigation: {
-            nextEl: '.mil-revi-next',
-            prevEl: '.mil-revi-prev',
-        },
-    })
-
-    /***************************
-
-    infinite slider
-
-    ***************************/
-    var swiper = new Swiper('.mil-infinite-show', {
-        slidesPerView: 2,
+        autoHeight: true,
         spaceBetween: 30,
-        speed: 5000,
-        autoplay: true,
-        autoplay: {
-            delay: 0,
-        },
-        loop: true,
-        freeMode: true,
-        breakpoints: {
-            992: {
-                slidesPerView: 4,
-            },
-        },
-    });
-
-    /***************************
-
-    portfolio slider
-
-    ***************************/
-    var swiper = new Swiper('.mil-portfolio-slider', {
         slidesPerView: 1,
-        spaceBetween: 0,
         speed: 800,
-        parallax: true,
-        mousewheel: {
-            enable: true
-        },
         navigation: {
-            nextEl: '.mil-portfolio-next',
-            prevEl: '.mil-portfolio-prev',
-        },
-        pagination: {
-            el: '.swiper-portfolio-pagination',
-            type: 'fraction',
-        },
-    });
-    /***************************
-
-    1 item slider
-
-    ***************************/
-    var swiper = new Swiper('.mil-1-slider', {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        speed: 800,
-        parallax: true,
-        navigation: {
-            nextEl: '.mil-portfolio-next',
-            prevEl: '.mil-portfolio-prev',
-        },
-        pagination: {
-            el: '.swiper-portfolio-pagination',
-            type: 'fraction',
-        },
-    });
-    /***************************
-
-    2 item slider
-
-    ***************************/
-    var swiper = new Swiper('.mil-2-slider', {
-        slidesPerView: 1,
-        spaceBetween: 30,
-        speed: 800,
-        parallax: true,
-        navigation: {
-            nextEl: '.mil-portfolio-next',
-            prevEl: '.mil-portfolio-prev',
-        },
-        pagination: {
-            el: '.swiper-portfolio-pagination',
-            type: 'fraction',
+            prevEl: '.mil-nl-prev',
+            nextEl: '.mil-nl-next',
         },
         breakpoints: {
             992: {
                 slidesPerView: 2,
             },
         },
+        on: {
+            slideChangeTransitionEnd: function () {
+                ScrollTrigger.refresh();
+            }
+        }
     });
 
-    /*----------------------------------------------------------
-    ------------------------------------------------------------
-
-    REINIT
-
-    ------------------------------------------------------------
-    ----------------------------------------------------------*/
-    document.addEventListener("swup:contentReplaced", function () {
-
-        $('html, body').animate({
-            scrollTop: 0,
-        }, 0);
-
-        gsap.to('.mil-progress', {
-            height: 0,
-            ease: 'sine',
-            onComplete: () => {
-                ScrollTrigger.refresh()
+    var swiper = new Swiper('.mil-blog-slider-sm', {
+        parallax: true,
+        autoHeight: true,
+        spaceBetween: 30,
+        slidesPerView: 1,
+        speed: 800,
+        navigation: {
+            prevEl: '.mil-sb-prev',
+            nextEl: '.mil-sb-next',
+        },
+        breakpoints: {
+            992: {
+                slidesPerView: 2,
             },
-        });
-        /***************************
-
-         menu
-
-        ***************************/
-        $('.mil-menu-btn').removeClass('mil-active');
-        $('.mil-menu').removeClass('mil-active');
-        $('.mil-menu-frame').removeClass('mil-active');
-        /***************************
-
-        append
-
-        ***************************/
-        $(document).ready(function () {
-            $(".mil-arrow-place .mil-arrow, .mil-animation .mil-dodecahedron, .mil-current-page a").remove();
-            $(".mil-arrow").clone().appendTo(".mil-arrow-place");
-            $(".mil-dodecahedron").clone().appendTo(".mil-animation");
-            $(".mil-lines").clone().appendTo(".mil-lines-place");
-            $(".mil-main-menu ul li.mil-active > a").clone().appendTo(".mil-current-page");
-        });
-        /***************************
-
-        accordion
-
-        ***************************/
-
-        let groups = gsap.utils.toArray(".mil-accordion-group");
-        let menus = gsap.utils.toArray(".mil-accordion-menu");
-        let menuToggles = groups.map(createAnimation);
-
-        menus.forEach((menu) => {
-            menu.addEventListener("click", () => toggleMenu(menu));
-        });
-
-        function toggleMenu(clickedMenu) {
-            menuToggles.forEach((toggleFn) => toggleFn(clickedMenu));
+        },
+        on: {
+            slideChangeTransitionEnd: function () {
+                ScrollTrigger.refresh();
+            }
         }
+    });
 
-        function createAnimation(element) {
-            let menu = element.querySelector(".mil-accordion-menu");
-            let box = element.querySelector(".mil-accordion-content");
-            let symbol = element.querySelector(".mil-symbol");
-            let minusElement = element.querySelector(".mil-minus");
-            let plusElement = element.querySelector(".mil-plus");
-
-            gsap.set(box, {
-                height: "auto",
-            });
-
-            let animation = gsap
-                .timeline()
-                .from(box, {
-                    height: 0,
-                    duration: 0.4,
-                    ease: "sine"
-                })
-                .from(minusElement, {
-                    duration: 0.4,
-                    autoAlpha: 0,
-                    ease: "none",
-                }, 0)
-                .to(plusElement, {
-                    duration: 0.4,
-                    autoAlpha: 0,
-                    ease: "none",
-                }, 0)
-                .to(symbol, {
-                    background: accent,
-                    ease: "none",
-                }, 0)
-                .reverse();
-
-            return function (clickedMenu) {
-                if (clickedMenu === menu) {
-                    animation.reversed(!animation.reversed());
-                } else {
-                    animation.reverse();
-                }
-            };
+    var swiper = new Swiper('.mil-reviews-slider', {
+        parallax: true,
+        autoHeight: true,
+        spaceBetween: 120,
+        slidesPerView: 1,
+        initialSlide: 1,
+        speed: 800,
+        pagination: {
+            el: ".mil-sr-pagination",
+            clickable: true,
+        },
+        navigation: {
+            prevEl: '.mil-sr-prev',
+            nextEl: '.mil-sr-next',
+        },
+        on: {
+            slideChangeTransitionEnd: function () {
+                ScrollTrigger.refresh();
+            }
         }
+    });
 
-        /***************************
+    var swiper = new Swiper('.mil-project-slider', {
+        parallax: true,
+        autoHeight: true,
+        spaceBetween: 30,
+        slidesPerView: 1,
+        speed: 800,
+        breakpoints: {
+            992: {
+                slidesPerView: 2,
+            },
+        },
+        on: {
+            slideChangeTransitionEnd: function () {
+                ScrollTrigger.refresh();
+            }
+        }
+    });
+
+    /* ----------------------------------------------------------------------------
+    -------------------------------------------------------------------------------
+
+    reinit
+
+    -------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------- */
+
+    swup.hooks.on('page:view', () => {
+
+        /* -------------------------------------------
+
+        register gsap plugins
+
+        ------------------------------------------- */
+        gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
+        /* -------------------------------------------
+
+        ScrollSmoother
+
+        ------------------------------------------- */
+        ScrollSmoother.create({
+            smooth: 1,
+            effects: true,
+            smoothTouch: 0.1,
+        });
+
+        /* -------------------------------------------
 
         cursor
 
-        ***************************/
+        ------------------------------------------- */
 
-        $('.mil-drag, .mil-more, .mil-choose').mouseover(function () {
-            gsap.to($(cursor), .2, {
-                width: 90,
-                height: 90,
-                opacity: 1,
-                ease: 'sine',
+        const elements = document.querySelectorAll('.mil-cursor-follower');
+
+        elements.forEach(element => {
+            element.className = 'mil-cursor-follower';
+        });
+
+        function addHoverEffect(selector, className) {
+            document.querySelectorAll(selector).forEach(function (link) {
+                link.addEventListener("mouseenter", function () {
+                    follower.classList.add(className);
+                });
+                link.addEventListener("mouseleave", function () {
+                    follower.classList.remove(className);
+                });
+            });
+        }
+
+        addHoverEffect(".mil-c-light", "mil-light-active");
+        addHoverEffect(".mil-c-dark", "mil-dark-active");
+        addHoverEffect(".mil-c-gone", "mil-gone-active");
+        addHoverEffect(".mil-c-view", "mil-view-active");
+        addHoverEffect(".mil-c-next", "mil-next-active");
+        addHoverEffect(".mil-c-read", "mil-read-active");
+        addHoverEffect(".mil-c-swipe", "mil-swipe-active");
+
+        document.addEventListener("mousemove", function (e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        /* -------------------------------------------
+
+        cursor parallax
+
+        ------------------------------------------- */
+        var scene1 = document.getElementById('scene');
+        if (scene1) {
+            var parallaxInstance1 = new Parallax(scene1, {
+                limitY: 10,
+            });
+        }
+
+        var scene2 = document.getElementById('scene-2');
+        if (scene2) {
+            var parallaxInstance2 = new Parallax(scene2, {
+                limitY: 10,
+            });
+        }
+
+        /* -------------------------------------------
+
+        menu
+
+        ------------------------------------------- */
+
+        document.querySelectorAll('.mil-main-menu li a').forEach(link => {
+            link.addEventListener('click', function (event) {
+                const href = this.getAttribute('href');
+
+                if (isValidHref(href)) {
+                    document.querySelector('.mil-menu-btn').classList.remove('mil-active');
+                    document.querySelector('.mil-menu-frame').classList.remove('mil-active');
+                    document.querySelector('.mil-buttons-tp-frame').classList.remove('mil-active');
+                    document.querySelector('.mil-top-panel-2').classList.remove('mil-menu-open');
+                } else {
+                    event.preventDefault(); // Якщо href невалідний, зупиняємо дію за замовчуванням
+                }
             });
         });
 
-        $('.mil-drag, .mil-more, .mil-choose').mouseleave(function () {
-            gsap.to($(cursor), .2, {
-                width: 20,
-                height: 20,
-                opacity: .1,
-                ease: 'sine',
+        function isValidHref(href) {
+            return href && href.trim() !== '' && href.length > 1 && !/^#(\.|$)/.test(href);
+        }
+
+        document.querySelectorAll('.mil-has-children > a').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.stopPropagation();
+                event.preventDefault(); // Додаємо, щоб уникнути переходу за посиланням
+
+                const parentElement = link.parentElement;
+                const isActive = parentElement.classList.contains('mil-active');
+
+                document.querySelectorAll('.mil-has-children').forEach(el => {
+                    const ul = el.querySelector('ul');
+                    el.classList.remove('mil-active');
+                    if (ul) ul.style.maxHeight = '0';
+                });
+
+                if (!isActive) {
+                    parentElement.classList.add('mil-active');
+                    const ul = parentElement.querySelector('ul');
+                    if (ul) ul.style.maxHeight = `${ul.scrollHeight}px`;
+                }
+            });
+        });
+        /* -------------------------------------------
+
+        onepage navigation
+
+        ------------------------------------------- */
+        document.querySelectorAll('.mil-onepage-nav > li > a, .mil-scroll-to').forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (!targetElement) return;
+
+                const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                const currentPosition = window.pageYOffset;
+                const distance = Math.abs(targetPosition - currentPosition);
+                const baseDuration = 0.1; // Base duration in seconds
+                const duration = baseDuration + (distance / 4000); // Adjust this factor as needed
+
+                const offsetY = window.innerWidth < 992 ? 120 : 160;
+                gsap.to(window, {
+                    duration: duration,
+                    ease: 'sine',
+                    scrollTo: {
+                        y: targetElement,
+                        offsetY: offsetY
+                    }
+                });
             });
         });
 
-        $('.mil-accent-cursor').mouseover(function () {
-            gsap.to($(cursor), .2, {
-                background: accent,
-                ease: 'sine',
-            });
-            $(cursor).addClass('mil-accent');
-        });
+        /* -------------------------------------------
 
-        $('.mil-accent-cursor').mouseleave(function () {
-            gsap.to($(cursor), .2, {
-                background: dark,
-                ease: 'sine',
-            });
-            $(cursor).removeClass('mil-accent');
-        });
+        ruber letters
 
-        $('.mil-drag').mouseover(function () {
-            gsap.to($('.mil-ball .mil-icon-1'), .2, {
-                scale: '1',
-                ease: 'sine',
-            });
-        });
+        ------------------------------------------- */
+        const headings = document.querySelectorAll('.mil-rubber');
 
-        $('.mil-drag').mouseleave(function () {
-            gsap.to($('.mil-ball .mil-icon-1'), .2, {
-                scale: '0',
-                ease: 'sine',
-            });
-        });
+        headings.forEach(heading => {
+            const textNodes = [];
 
-        $('.mil-more').mouseover(function () {
-            gsap.to($('.mil-ball .mil-more-text'), .2, {
-                scale: '1',
-                ease: 'sine',
+            heading.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    node.textContent.split(' ').forEach((word, index, array) => {
+                        const wordSpan = document.createElement('span');
+                        wordSpan.classList.add('mil-word-span');
+                        word.split('').forEach(letter => {
+                            const letterSpan = document.createElement('span');
+                            letterSpan.classList.add('mil-letter-span');
+                            letterSpan.textContent = letter;
+                            wordSpan.appendChild(letterSpan);
+                        });
+                        textNodes.push(wordSpan);
+                        if (index < array.length - 1) {
+                            textNodes.push(document.createTextNode(' '));
+                        }
+                    });
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    textNodes.push(node.cloneNode(true));
+                }
             });
-        });
 
-        $('.mil-more').mouseleave(function () {
-            gsap.to($('.mil-ball .mil-more-text'), .2, {
-                scale: '0',
-                ease: 'sine',
-            });
-        });
+            heading.innerHTML = '';
+            textNodes.forEach(node => heading.appendChild(node));
 
-        $('.mil-choose').mouseover(function () {
-            gsap.to($('.mil-ball .mil-choose-text'), .2, {
-                scale: '1',
-                ease: 'sine',
-            });
-        });
+            const letters = heading.querySelectorAll('.mil-letter-span');
+            letters.forEach(letter => {
+                letter.addEventListener('mouseenter', () => {
+                    gsap.to(letter, {
+                        scaleY: 1.1,
+                        y: '-5%',
+                        duration: 0.2,
+                        ease: 'sine'
+                    });
+                });
 
-        $('.mil-choose').mouseleave(function () {
-            gsap.to($('.mil-ball .mil-choose-text'), .2, {
-                scale: '0',
-                ease: 'sine',
+                letter.addEventListener('mouseleave', () => {
+                    gsap.to(letter, {
+                        scaleY: 1,
+                        y: '0%',
+                        duration: 0.2,
+                        ease: 'sine'
+                    });
+                });
             });
         });
 
-        $('a:not(".mil-choose , .mil-more , .mil-drag , .mil-accent-cursor"), input , textarea, .mil-accordion-menu').mouseover(function () {
-            gsap.to($(cursor), .2, {
-                scale: 0,
-                ease: 'sine',
+
+        /* -------------------------------------------
+
+        counters
+
+        ------------------------------------------- */
+        const numbers = document.querySelectorAll(".mil-counter");
+
+        if (numbers.length > 0) {
+            numbers.forEach(element => {
+                const zero = {
+                    val: 0
+                };
+                const num = parseFloat(element.dataset.number);
+                const split = num.toString().split(".");
+                const decimals = split.length > 1 ? split[1].length : 0;
+
+                gsap.to(zero, {
+                    val: num,
+                    duration: 1.8,
+                    scrollTrigger: {
+                        trigger: element,
+                        toggleActions: 'play none none reverse',
+                    },
+                    onUpdate: function () {
+                        element.textContent = zero.val.toFixed(decimals);
+                    }
+                });
             });
-            gsap.to($('.mil-ball svg'), .2, {
-                scale: 0,
-            });
-        });
+        }
 
-        $('a:not(".mil-choose , .mil-more , .mil-drag , .mil-accent-cursor"), input, textarea, .mil-accordion-menu').mouseleave(function () {
-            gsap.to($(cursor), .2, {
-                scale: 1,
-                ease: 'sine',
-            });
+        /* -------------------------------------------
 
-            gsap.to($('.mil-ball svg'), .2, {
-                scale: 1,
-            });
-        });
+        scroll animation
 
-        $('body').mousedown(function () {
-            gsap.to($(cursor), .2, {
-                scale: .1,
-                ease: 'sine',
-            });
-        });
-        $('body').mouseup(function () {
-            gsap.to($(cursor), .2, {
-                scale: 1,
-                ease: 'sine',
-            });
-        });
-        /***************************
-
-        main menu
-
-        ***************************/
-        $('.mil-has-children a').on('click', function () {
-            $('.mil-has-children ul').removeClass('mil-active');
-            $('.mil-has-children a').removeClass('mil-active');
-            $(this).toggleClass('mil-active');
-            $(this).next().toggleClass('mil-active');
-        });
-        /***************************
-
-        scroll animations
-
-        ***************************/
-
+        ------------------------------------------- */
         const appearance = document.querySelectorAll(".mil-up");
-
         appearance.forEach((section) => {
             gsap.fromTo(section, {
                 opacity: 0,
                 y: 40,
-                scale: .98,
+                scale: 1.04,
                 ease: 'sine',
-
             }, {
                 y: 0,
                 opacity: 1,
                 scale: 1,
-                duration: .4,
                 scrollTrigger: {
                     trigger: section,
                     toggleActions: 'play none none reverse',
@@ -860,15 +892,75 @@ $(function () {
             });
         });
 
-        const scaleImage = document.querySelectorAll(".mil-scale");
+        /* -------------------------------------------
+
+        parallax animation
+
+        ------------------------------------------- */
+
+        const parallaxImages = document.querySelectorAll(".mil-parallax-img");
+
+        parallaxImages.forEach((section) => {
+            var value1 = section.getAttribute("data-value-1");
+            var value2 = section.getAttribute("data-value-2");
+
+            gsap.fromTo(section, {
+                ease: 'sine',
+                y: value1
+            }, {
+                y: value2,
+                scrollTrigger: {
+                    trigger: section,
+                    scrub: true,
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        /* -------------------------------------------
+
+        parallax x animation
+
+        ------------------------------------------- */
+
+        const parallaxXImages = document.querySelectorAll(".mil-parallax-x-img");
+
+        parallaxXImages.forEach((section) => {
+            var value1 = section.getAttribute("data-value-1");
+            var value2 = section.getAttribute("data-value-2");
+
+            gsap.fromTo(section, {
+                ease: 'sine',
+                x: value1
+            }, {
+                x: value2,
+                scrollTrigger: {
+                    trigger: section,
+                    scrub: true,
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+
+        /* -------------------------------------------
+
+        scale animation
+
+        ------------------------------------------- */
+        const scaleImage = document.querySelectorAll(".mil-scale-img");
 
         scaleImage.forEach((section) => {
-            var value1 = $(section).data("value-1");
-            var value2 = $(section).data("value-2");
+            var value1 = section.getAttribute("data-value-1");
+            var value2 = section.getAttribute("data-value-2");
+
+            if (window.innerWidth < 1200) {
+                value1 = Math.max(.95, value1);
+            }
+
             gsap.fromTo(section, {
                 ease: 'sine',
                 scale: value1,
-
             }, {
                 scale: value2,
                 scrollTrigger: {
@@ -879,36 +971,18 @@ $(function () {
             });
         });
 
-        const parallaxImage = document.querySelectorAll(".mil-parallax");
+        /* -------------------------------------------
 
+        rotate animation
 
-        if ($(window).width() > 960) {
-            parallaxImage.forEach((section) => {
-                var value1 = $(section).data("value-1");
-                var value2 = $(section).data("value-2");
-                gsap.fromTo(section, {
-                    ease: 'sine',
-                    y: value1,
-
-                }, {
-                    y: value2,
-                    scrollTrigger: {
-                        trigger: section,
-                        scrub: true,
-                        toggleActions: 'play none none reverse',
-                    }
-                });
-            });
-        }
-
+        ------------------------------------------- */
         const rotate = document.querySelectorAll(".mil-rotate");
 
         rotate.forEach((section) => {
-            var value = $(section).data("value");
+            var value = section.getAttribute("data-value");
             gsap.fromTo(section, {
                 ease: 'sine',
                 rotate: 0,
-
             }, {
                 rotate: value,
                 scrollTrigger: {
@@ -918,135 +992,121 @@ $(function () {
                 }
             });
         });
-        /***************************
 
-        fancybox
+        /* -------------------------------------------
 
-        ***************************/
-        $('[data-fancybox="gallery"]').fancybox({
-            buttons: [
-            "slideShow",
-            "zoom",
-            "fullScreen",
-            "close"
-          ],
-            loop: false,
-            protect: true
+        add class
+
+        ------------------------------------------- */
+        function addClassToElement(element) {
+            if (element) {
+                element.classList.add('mil-added');
+            }
+        }
+
+        function removeClassFromElement(element) {
+            if (element) {
+                element.classList.remove('mil-added');
+            }
+        }
+
+        document.querySelectorAll('.mil-add-class').forEach(element => {
+            ScrollTrigger.create({
+                trigger: element,
+                toggleActions: 'play none none reverse',
+                onEnter: () => addClassToElement(element),
+                onLeaveBack: () => removeClassFromElement(element)
+            });
         });
-        $.fancybox.defaults.hash = false;
-        /***************************
+        /* -------------------------------------------
 
-        reviews slider
+        sliders
 
-        ***************************/
+        ------------------------------------------- */
 
-        var menu = ['<div class="mil-custom-dot mil-slide-1"></div>', '<div class="mil-custom-dot mil-slide-2"></div>', '<div class="mil-custom-dot mil-slide-3"></div>', '<div class="mil-custom-dot mil-slide-4"></div>', '<div class="mil-custom-dot mil-slide-5"></div>', '<div class="mil-custom-dot mil-slide-6"></div>', '<div class="mil-custom-dot mil-slide-7"></div>']
-        var mySwiper = new Swiper('.mil-reviews-slider', {
-            // If we need pagination
-            pagination: {
-                el: '.mil-revi-pagination',
-                clickable: true,
-                renderBullet: function (index, className) {
-                    return '<span class="' + className + '">' + (menu[index]) + '</span>';
-                },
-            },
-            speed: 800,
-            effect: 'fade',
+        var swiper = new Swiper('.mil-blog-slider', {
             parallax: true,
-            navigation: {
-                nextEl: '.mil-revi-next',
-                prevEl: '.mil-revi-prev',
-            },
-        })
-
-        /***************************
-
-        infinite slider
-
-        ***************************/
-        var swiper = new Swiper('.mil-infinite-show', {
-            slidesPerView: 2,
+            autoHeight: true,
             spaceBetween: 30,
-            speed: 5000,
-            autoplay: true,
-            autoplay: {
-                delay: 0,
-            },
-            loop: true,
-            freeMode: true,
-            breakpoints: {
-                992: {
-                    slidesPerView: 4,
-                },
-            },
-        });
-
-        /***************************
-
-        portfolio slider
-
-        ***************************/
-        var swiper = new Swiper('.mil-portfolio-slider', {
             slidesPerView: 1,
-            spaceBetween: 0,
             speed: 800,
-            parallax: true,
-            mousewheel: {
-                enable: true
-            },
             navigation: {
-                nextEl: '.mil-portfolio-next',
-                prevEl: '.mil-portfolio-prev',
-            },
-            pagination: {
-                el: '.swiper-portfolio-pagination',
-                type: 'fraction',
-            },
-        });
-        /***************************
-
-        1 item slider
-
-        ***************************/
-        var swiper = new Swiper('.mil-1-slider', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            speed: 800,
-            parallax: true,
-            navigation: {
-                nextEl: '.mil-portfolio-next',
-                prevEl: '.mil-portfolio-prev',
-            },
-            pagination: {
-                el: '.swiper-portfolio-pagination',
-                type: 'fraction',
-            },
-        });
-        /***************************
-
-        2 item slider
-
-        ***************************/
-        var swiper = new Swiper('.mil-2-slider', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            speed: 800,
-            parallax: true,
-            navigation: {
-                nextEl: '.mil-portfolio-next',
-                prevEl: '.mil-portfolio-prev',
-            },
-            pagination: {
-                el: '.swiper-portfolio-pagination',
-                type: 'fraction',
+                prevEl: '.mil-nl-prev',
+                nextEl: '.mil-nl-next',
             },
             breakpoints: {
                 992: {
                     slidesPerView: 2,
                 },
             },
+            on: {
+                slideChangeTransitionEnd: function () {
+                    ScrollTrigger.refresh();
+                }
+            }
         });
 
+        var swiper = new Swiper('.mil-blog-slider-sm', {
+            parallax: true,
+            autoHeight: true,
+            spaceBetween: 30,
+            slidesPerView: 1,
+            speed: 800,
+            navigation: {
+                prevEl: '.mil-sb-prev',
+                nextEl: '.mil-sb-next',
+            },
+            breakpoints: {
+                992: {
+                    slidesPerView: 2,
+                },
+            },
+            on: {
+                slideChangeTransitionEnd: function () {
+                    ScrollTrigger.refresh();
+                }
+            }
+        });
+
+        var swiper = new Swiper('.mil-reviews-slider', {
+            parallax: true,
+            autoHeight: true,
+            spaceBetween: 120,
+            slidesPerView: 1,
+            initialSlide: 1,
+            speed: 800,
+            pagination: {
+                el: ".mil-sr-pagination",
+                clickable: true,
+            },
+            navigation: {
+                prevEl: '.mil-sr-prev',
+                nextEl: '.mil-sr-next',
+            },
+            on: {
+                slideChangeTransitionEnd: function () {
+                    ScrollTrigger.refresh();
+                }
+            }
+        });
+
+        var swiper = new Swiper('.mil-project-slider', {
+            parallax: true,
+            autoHeight: true,
+            spaceBetween: 30,
+            slidesPerView: 1,
+            speed: 800,
+            breakpoints: {
+                992: {
+                    slidesPerView: 2,
+                },
+            },
+            on: {
+                slideChangeTransitionEnd: function () {
+                    ScrollTrigger.refresh();
+                }
+            }
+        });
     });
 
 });
